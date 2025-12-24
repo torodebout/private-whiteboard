@@ -34,6 +34,8 @@ jobs:
         context: .
         push: true
         tags: ghcr.io/${{ github.repository }}:latest
+        build-args: |
+          NEXT_PUBLIC_TLDRAW_LICENSE_KEY=${{ secrets.NEXT_PUBLIC_TLDRAW_LICENSE_KEY }}
 
     - name: Trigger Deployment
       run: curl -X POST ${{ secrets.DEPLOY_WEBHOOK_URL }}

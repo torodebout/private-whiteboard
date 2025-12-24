@@ -41,7 +41,9 @@ export default function Whiteboard() {
 
         if (snapshot && typeof snapshot === 'object') {
             try {
-                const records = Object.values(snapshot);
+                const records = Object.values(snapshot).filter((record: any) => {
+                    return record && typeof record === 'object' && 'typeName' in record && 'id' in record;
+                });
                 editorInstance.store.put(records as TLRecord[]);
             } catch (error) {
                 console.error('Failed to load snapshot into store:', error);
@@ -61,7 +63,10 @@ export default function Whiteboard() {
 
     return (
         <div className="fixed inset-0 h-screen w-screen overflow-hidden">
-            <Tldraw onMount={handleMount} />
+            <Tldraw
+                onMount={handleMount}
+                licenseKey={process.env.NEXT_PUBLIC_TLDRAW_LICENSE_KEY}
+            />
             {editor && (
                 <button
                     className="absolute bottom-0 right-0 m-2 bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-2 px-6 rounded shadow-lg z-[9999] transition-colors"
