@@ -15,6 +15,15 @@ export function getDb() {
             url,
         });
 
+        client.execute(`
+            CREATE TABLE IF NOT EXISTS scenes (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              key TEXT NOT NULL UNIQUE,
+              data TEXT NOT NULL,
+              updated_at INTEGER
+            )
+        `);
+
         dbInstance = drizzle(client, { schema });
     }
     return dbInstance;
